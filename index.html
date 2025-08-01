@@ -2,40 +2,14 @@
 <html amp lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="canonical" href="https://quickstart-d37705be.myshopify.com/" />
-		<title>AMP Page with Custom Script</title>
-		<meta
-			name="amp-script-src"
-			content="sha384-h3eVpVXY0w_ZxWjCk1FV1Vz8yHOiVfyOs6viQ-dP47v2TXWdeebnMWUBOX2vtmJy"
-		/>
-		<meta
-			name="amp-script-src"
-			content="sha384-OLBgp1GsljhM2TJ-sbHjaiH9txEUvgdDTAzHv2P24donTt6_529l-9Ua0vFImLlb"
-		/>
-
-		<!-- Set merchantInfo in the main window context -->
-		<script>
-			window.merchantInfo = {
-				mid: '19g6ilkatpl78',
-				environment: 'dev',
-				type: 'merchantInfo',
-				integrationType: 'PLUGIN',
-			};
-			console.log('Merchant info set in main window:', window.merchantInfo);
-		</script>
-
-		<!-- AMP Runtime -->
 		<script async src="https://cdn.ampproject.org/v0.js"></script>
-
-		<!-- AMP Script component -->
-		<script
-			async
-			custom-element="amp-script"
-			src="https://cdn.ampproject.org/v0/amp-script-0.1.js"
-		></script>
-
-		<!-- AMP Boilerplate CSS (required) -->
+		<title>Hello, AMPs</title>
+		<link
+			rel="canonical"
+			href="https://amp.dev/documentation/guides-and-tutorials/start/create/basic_markup/"
+		/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+		<script async src="https://cdn.ampproject.org/v0.js"></script>
 		<style amp-boilerplate>
 			body {
 				-webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
@@ -97,55 +71,92 @@
 
 		<!-- Custom styles -->
 		<style amp-custom>
-			/* Example of basic styling for the page */
 			body {
-				font-family: Arial, sans-serif;
+				font-family: 'Arial', sans-serif;
 				text-align: center;
 				background-color: #f4f4f4;
+				color: #333;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				flex-direction: column;
 			}
 
 			h1 {
-				color: #333;
+				font-size: 36px;
+				color: #2e6ba7;
+				margin-bottom: 20px;
 			}
 
 			p {
-				color: green;
 				font-size: 18px;
+				color: #555;
+				line-height: 1.6;
 				margin-top: 20px;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.description {
+				color: #7c7c7c;
+				font-size: 16px;
+				margin-top: 10px;
 			}
 		</style>
 	</head>
+
 	<body>
-		<h1>Welcome to AMP Page with Custom Script</h1>
+		<h1>Welcome to the AMP Page with KwikPass SDK</h1>
+		<p>
+			We're just a few steps away from loading the KwikPass SDK. Once it's ready, you'll be able to
+			interact with it seamlessly.
+		</p>
+		<p class="description" id="statusMessage">Loading KwikPass SDK, please wait...</p>
 
-		<!-- KwikPass SDK Integration via Public URL -->
-		<amp-script layout="fixed-height" height="50" script="kwikpass-script">
-			<div id="kwikpass-container" style="min-height: 50px">
-				<!-- KwikPass script will run in this context -->
-			</div>
-		</amp-script>
+		<script>
+			// This function is responsible for dynamically loading the kp-custom-merchant.js script
+			function loadKpCustomScript() {
+				window.merchantInfo = {
+					mid: '19g6ilkatpl78',
+					environment: 'dev',
+					type: 'merchantInfo',
+					integrationType: 'PLUGIN',
+				};
 
-		<!-- Original KwikPass script (now just initializes the container) -->
-		<script id="kwikpass-script" type="text/plain" target="amp-script">
-			// The merchantInfo is now set in the main window context
-			console.log("KwikPass script running in amp-script context");
+				// Change the status message to indicate that loading has started
+				document.getElementById('statusMessage').textContent =
+					'Loading KwikPass SDK, please wait...';
+
+				// Dynamically create a script element
+				const script = document.createElement('script');
+				script.src = 'https://dev.pdp.gokwik.co/kwikpass/plugin/build/kp-custom-merchant.js';
+				script.async = true;
+
+				// When the script is loaded, update the status message
+				script.onload = function () {
+					// Update the status message to indicate that the SDK is ready
+					document.getElementById('statusMessage').textContent = 'KwikPass SDK is now ready!';
+					const event = new CustomEvent('page_view_kp', {
+						detail: {
+							type: 'other',
+							data: { cart_id: '' },
+						},
+					});
+					window.dispatchEvent(event);
+				};
+
+				// Append the script element to the head of the document
+				document.head.appendChild(script);
+			}
+
+			// Automatically trigger the function once the page is loaded
+			window.onload = function () {
+				loadKpCustomScript();
+			};
 		</script>
-
-		<amp-script layout="fixed-height" height="300" script="external-script">
-			<div id="output">This will be updated by the script.</div>
-		</amp-script>
-
-		<script
-			id="external-script"
-			type="application/javascript"
-			src="https://dev.pdp.gokwik.co/kwikpass/plugin/build/kp-custom-merchant.js"
-			target="amp-script"
-			onload="
-				console.log('KwikPass SDK script loaded successfully!');
-				window.dispatchEvent(new CustomEvent('kp-script-loaded'));
-				const pageViewEvent = new CustomEvent('page_view_kp', { detail: { type: 'other', data: { cart_id: '' } } });
-				window.dispatchEvent(pageViewEvent);
-				"
-		></script>
 	</body>
 </html>
