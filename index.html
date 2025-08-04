@@ -17,7 +17,7 @@
 		></script>
 		<meta
 			name="amp-script-src"
-			content="sha384-9DBFYMW3Pu_CGX2u2a4EbtoPtti9W1DSZCckRtI9zHI44D2pF9ld1vFrAsjxj62V"
+			content="sha384-xE-3h_Y69oWEHE4i9Dxw8L6_Mm05UWExKzc93-do0XLfZ4ZtvADMroU7Y_UMujp5"
 		/>
 
 		<style amp-boilerplate>
@@ -83,6 +83,7 @@
 	<body>
 		Hello, AMP world.
 		<amp-iframe
+			id="kp-custom-iframe"
 			width="400"
 			height="225"
 			sandbox="allow-scripts allow-same-origin"
@@ -100,14 +101,26 @@
 		</amp-script>
 
 		<script id="message-listener-script" type="text/plain" target="amp-script">
-			window.addEventListener('message', (event) => {
-			  const { data } = event;
-			  if (data?.source === 'kp-sdk' && data?.type === 'SDK_READY') {
-				const div = document.getElementById('sdk-status');
-				if (div) {
-				  div.textContent = 'KwikPass SDK is ready with MID: ' + data.payload.mid;
-				}
-			  }
+				window.addEventListener('message', (event) => {
+				  const { data } = event;
+				  if (data?.source === 'kp-sdk' && data?.type === 'SDK_READY') {
+					const div = document.getElementById('sdk-status');
+					if (div) {
+					  div.textContent = 'KwikPass SDK is ready with MID: ' + data.payload.mid;
+					}
+				  }
+				});
+				const iframe = document.getElementById('kp-custom-iframe');
+			iframe.addEventListener('load', () => {
+			  iframe.contentWindow.postMessage({
+			    source: 'merchant',
+			    type: 'PAGE_VIEW',
+			    payload: {
+					type: 'other',
+					data: { cart_id: '' }
+
+			    }
+			  }, '*');
 			});
 		</script>
 	</body>
