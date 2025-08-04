@@ -6,6 +6,12 @@
 		<meta name="viewport" content="width=device-width,minimum-scale=1" />
 		<script
 			async
+			custom-element="amp-script"
+			src="https://cdn.ampproject.org/v0/amp-script-0.1.js"
+		></script>
+
+		<script
+			async
 			custom-element="amp-iframe"
 			src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"
 		></script>
@@ -85,5 +91,20 @@
 				src="https://ampproject-b5f4c.firebaseapp.com/examples/images/kittens-biting.jpg"
 			></amp-img>
 		</amp-iframe>
+		<amp-script layout="container" script="message-listener-script">
+			<div id="sdk-status">Waiting for SDK...</div>
+		</amp-script>
+
+		<script id="message-listener-script" type="text/plain" target="amp-script">
+			window.addEventListener('message', (event) => {
+			  const { data } = event;
+			  if (data?.source === 'kp-sdk' && data?.type === 'SDK_READY') {
+				const div = document.getElementById('sdk-status');
+				if (div) {
+				  div.textContent = 'KwikPass SDK is ready with MID: ' + data.payload.mid;
+				}
+			  }
+			});
+		</script>
 	</body>
 </html>
