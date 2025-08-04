@@ -101,27 +101,29 @@
 		</amp-script>
 
 		<script id="message-listener-script" type="text/plain" target="amp-script">
-				window.addEventListener('message', (event) => {
-				  const { data } = event;
-				  if (data?.source === 'kp-sdk' && data?.type === 'SDK_READY') {
-					const div = document.getElementById('sdk-status');
-					if (div) {
-					  div.textContent = 'KwikPass SDK is ready with MID: ' + data.payload.mid;
-					}
-				  }
-				});
-				const iframe = document.getElementById('kp-custom-iframe');
-			iframe.addEventListener('load', () => {
-			  iframe.contentWindow.postMessage({
-			    source: 'merchant',
-			    type: 'PAGE_VIEW',
-			    payload: {
-					type: 'other',
-					data: { cart_id: '' }
+					window.addEventListener('message', (event) => {
+					  const { data } = event;
+					  if (data?.source === 'kp-sdk' && data?.type === 'SDK_READY') {
+						const div = document.getElementById('sdk-status');
+						if (div) {
+						  div.textContent = 'KwikPass SDK is ready with MID: ' + data.payload.mid;
+						}
+					  }
+					});
+					const iframe = document.getElementById('kp-custom-iframe');
+				if(iframe) {
+					iframe.addEventListener('load', () => {
+				  iframe.contentWindow.postMessage({
+				    source: 'merchant',
+				    type: 'PAGE_VIEW',
+				    payload: {
+						type: 'other',
+						data: { cart_id: '' }
 
-			    }
-			  }, '*');
-			});
+				    }
+				  }, '*');
+				});
+			}
 		</script>
 	</body>
 </html>
