@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html amp lang="en">
+<html ⚡>
 	<head>
 		<meta charset="utf-8" />
-		<script async src="https://cdn.ampproject.org/v0.js"></script>
-		<title>Hello, AMPs</title>
-		<link
-			rel="canonical"
-			href="https://amp.dev/documentation/guides-and-tutorials/start/create/basic_markup/"
-		/>
-		<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-		<script async src="https://cdn.ampproject.org/v0.js"></script>
+		<link rel="canonical" href="self.html" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1" />
+		<script
+			async
+			custom-element="amp-iframe"
+			src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"
+		></script>
+
 		<style amp-boilerplate>
 			body {
 				-webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
@@ -68,95 +68,22 @@
 				}
 			</style></noscript
 		>
-
-		<!-- Custom styles -->
-		<style amp-custom>
-			body {
-				font-family: 'Arial', sans-serif;
-				text-align: center;
-				background-color: #f4f4f4;
-				color: #333;
-				padding: 0;
-				margin: 0;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100vh;
-				flex-direction: column;
-			}
-
-			h1 {
-				font-size: 36px;
-				color: #2e6ba7;
-				margin-bottom: 20px;
-			}
-
-			p {
-				font-size: 18px;
-				color: #555;
-				line-height: 1.6;
-				margin-top: 20px;
-				max-width: 600px;
-				margin-left: auto;
-				margin-right: auto;
-			}
-
-			.description {
-				color: #7c7c7c;
-				font-size: 16px;
-				margin-top: 10px;
-			}
-		</style>
+		<script async src="https://cdn.ampproject.org/v0.js"></script>
 	</head>
-
 	<body>
-		<h1>Welcome to the AMP Page with KwikPass SDK</h1>
-		<p>
-			We're just a few steps away from loading the KwikPass SDK. Once it's ready, you'll be able to
-			interact with it seamlessly.
-		</p>
-		<p class="description" id="statusMessage">Loading KwikPass SDK, please wait...</p>
-
-		<script>
-			// This function is responsible for dynamically loading the kp-custom-merchant.js script
-			function loadKpCustomScript() {
-				window.merchantInfo = {
-					mid: '19g6ilkatpl78',
-					environment: 'dev',
-					type: 'merchantInfo',
-					integrationType: 'PLUGIN',
-				};
-
-				// Change the status message to indicate that loading has started
-				document.getElementById('statusMessage').textContent =
-					'Loading KwikPass SDK, please wait...';
-
-				// Dynamically create a script element
-				const script = document.createElement('script');
-				script.src = 'https://dev.pdp.gokwik.co/kwikpass/plugin/build/kp-custom-merchant.js';
-				script.async = true;
-
-				// When the script is loaded, update the status message
-				script.onload = function () {
-					// Update the status message to indicate that the SDK is ready
-					document.getElementById('statusMessage').textContent = 'KwikPass SDK is now ready!';
-					const event = new CustomEvent('page_view_kp', {
-						detail: {
-							type: 'other',
-							data: { cart_id: '' },
-						},
-					});
-					window.dispatchEvent(event);
-				};
-
-				// Append the script element to the head of the document
-				document.head.appendChild(script);
-			}
-
-			// Automatically trigger the function once the page is loaded
-			window.onload = function () {
-				loadKpCustomScript();
-			};
-		</script>
+		Hello, AMP world.
+		<amp-iframe
+			width="400"
+			height="225"
+			sandbox="allow-scripts allow-same-origin"
+			layout="responsive"
+			src="https://dev.pdp.gokwik.co/kwikpass/custom-headless.html"
+		>
+			<amp-img
+				placeholder
+				layout="fill"
+				src="https://ampproject-b5f4c.firebaseapp.com/examples/images/kittens-biting.jpg"
+			></amp-img>
+		</amp-iframe>
 	</body>
 </html>
