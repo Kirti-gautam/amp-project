@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ⚡>
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="canonical" href="self.html" />
 		<meta name="viewport" content="width=device-width,minimum-scale=1" />
-		<script
+		<!-- <script
 			async
 			custom-element="amp-script"
 			src="https://cdn.ampproject.org/v0/amp-script-0.1.js"
@@ -15,10 +15,7 @@
 			custom-element="amp-iframe"
 			src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"
 		></script>
-		<meta
-			name="amp-script-src"
-			content="sha384-07euKKcg5KCRlr7-7pxR6UFAuAxD4O5julKOk36dDmlb_lwz2Q8SENrxd69KqOfm"
-		/>
+		<meta name="amp-script-src" content="sha384-07euKKcg5KCRlr7-7pxR6UFAuAxD4O5julKOk36dDmlb_lwz2Q8SENrxd69KqOfm">
 
 		<style amp-boilerplate>
 			body {
@@ -78,11 +75,23 @@
 				}
 			</style></noscript
 		>
-		<script async src="https://cdn.ampproject.org/v0.js"></script>
+		<script async src="https://cdn.ampproject.org/v0.js"></script> -->
 	</head>
 	<body>
 		Hello, AMP world.
-		<amp-iframe
+		<h2>Demo External JavaScript</h2>
+		<p id="demo">A Paragraph.</p>
+		<button type="button" onclick="myFunction()">Try it</button>
+		<br /><br />
+		<input
+			type="tel"
+			id="phone"
+			name="phone"
+			autocomplete="tel"
+			placeholder="Enter your phone number"
+		/>
+
+		<!-- <amp-iframe
 			id="kp-custom-iframe"
 			width="400"
 			height="225"
@@ -124,6 +133,6 @@
 				  }, '*');
 				});
 			}
-		</script>
+		</script> -->
 	</body>
 </html>
